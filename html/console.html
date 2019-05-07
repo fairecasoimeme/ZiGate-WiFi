@@ -1,0 +1,186 @@
+  <div id="main" class="flex-fill flex-vbox" style="max-height:100%">
+    <div class="header">
+      <h1>ZiGate Console</h1>
+    </div>
+
+    <div class="content flex-fill flex-vbox">
+      <p>
+       
+		<div class="pure-g">
+			<div class="pure-u-1-4"><legend><b>Commands</b></legend></div>
+		</div>
+		<div class="pure-g">
+			<div class="pure-u-1-1"><a id="clear-button" class="pure-button button-primary" href="#">Clear console</a>
+			&nbsp;<a id="erase-pdm-button" class="pure-button button-primary" href="#">Erase PDM</a>
+			&nbsp;<a id="getversion-button" class="pure-button button-primary" href="#">Get Version</a></div>
+		</div>
+		<p></p>
+		<div class="pure-g">
+			<div class="pure-u-1-4"><legend><b>Channel</b></legend></div>
+		</div>
+		<div class="pure-g">
+			<div class="pure-u-2-4"><input id="channel" type="number" value="26" disabled/>
+			<a id="setchannel-button" class="pure-button button-primary" href="#">Set channel</a></div>
+		</div>
+		<div class="pure-g">
+			&nbsp;<div class="pure-u-1-4"><a id="start-network-button" class="pure-button button-primary" href="#">Start network</a></div>
+		</div>
+		<p></p>
+		<div class="pure-g">
+			<div class="pure-u-1-4"><legend><b>Inclusion</b></legend></div>
+		</div>
+		<div class="pure-g">
+			<div class="pure-u-1-4"><a id="inclusion-on-button" class="pure-button button-primary" href="#">ON</a>
+			&nbsp;<a id="inclusion-off-button" class="pure-button button-primary" href="#">OFF</a> </div>
+			</p><div class="pure-u-1-4"><a id="permit-join-state-button" class="pure-button button-primary" href="#">Permit Join State</a></div>
+		</div>
+		<p></p>
+		<div class="pure-g">
+			<div class="pure-u-2-4"><legend><b>Send RAW datas (%01---%03)</b></legend></div>
+		</div>
+		<div class="pure-g">
+			<div class="pure-u-1-1"><input id="rawdatas" class="console-in" type="text" value="" /></div>
+			<div class="pure-u-1-4"><a id="send-raw-datas-button" class="pure-button button-primary" href="#">Send</a></div>
+		</div>
+      <p></p>
+      <div class="pure-g">
+        <div class="pure-u-1-4"><legend><b>Console</b></legend></div>
+        <div class="pure-u-3-4"></div>
+      </div>
+      <textarea id="console"><pre class="console flex-fill" >--- No Content ---</pre></textarea>
+	  <div class="pure-g">
+        <div class="pure-u-1-4"><a id="saveToFile" class="pure-button button-primary" href="#">Save to file</a></div>
+      </div>
+
+    </div>
+  </div>
+</div>
+
+<script type="text/javascript">console_url = "/console/text"</script>
+<script src="console.js"></script>
+<script type="text/javascript">
+function destroyClickedElement(event)
+{
+	document.body.removeChild(event.target);
+}
+  onLoad(function() {
+    fetchText(100, true);
+	
+    $("#clear-button").addEventListener("click", function(e) {
+        e.preventDefault();
+        var co = $("#console");
+        co.innerHTML = "";
+    });
+	$("#erase-pdm-button").addEventListener("click", function(e) {
+        e.preventDefault();
+        var co = $("#console");
+        co.innerHTML = "";
+		ajaxSpin('POST', "/console/send?text=%01%02%10%12%02%10%02%10%12%03",
+        function(resp) { showNotification("Erase PDM sent"); co.textEnd = 0; },
+        function(s, st) { showWarning("Error Erase PDM"); }
+      );
+    });
+	$("#getversion-button").addEventListener("click", function(e) {
+        e.preventDefault();
+        var co = $("#console");
+        co.innerHTML = "";
+		ajaxSpin('POST', "/console/send?text=%01%02%10%10%02%10%02%10%10%03",
+        function(resp) { showNotification("GetVersion sent"); co.textEnd = 0; },
+        function(s, st) { showWarning("Error GetVersion"); }
+      );
+    });
+	$("#setchannel-button").addEventListener("click", function(e) {
+        e.preventDefault();
+        var co = $("#console");
+        co.innerHTML = "";
+		ajaxSpin('POST', "/console/send?text=%01%02%10%21%02%10%02%14%21%02%14%02%10%02%10%02%10%03",
+        function(resp) { showNotification("Set Channel 26 sent"); co.textEnd = 0; },
+        function(s, st) { showWarning("Error Set Channel 26"); }
+      );
+    });
+	$("#start-network-button").addEventListener("click", function(e) {
+        e.preventDefault();
+        var co = $("#console");
+        co.innerHTML = "";
+		ajaxSpin('POST', "/console/send?text=%01%02%10%24%02%10%02%10%24%03",
+        function(resp) { showNotification("GetVersion sent"); co.textEnd = 0; },
+        function(s, st) { showWarning("Error GetVersion"); }
+      );
+    });
+	$("#inclusion-on-button").addEventListener("click", function(e) {
+        e.preventDefault();
+        var co = $("#console");
+        co.innerHTML = "";
+		ajaxSpin('POST', "/console/send?text=%01%02%10%49%02%10%02%14%B0%FF%FC%FE%02%10%03",
+        function(resp) { showNotification("Inclusion ON sent"); co.textEnd = 0; },
+        function(s, st) { showWarning("Error Inclusion ON"); }
+      );
+    });
+	$("#inclusion-off-button").addEventListener("click", function(e) {
+        e.preventDefault();
+        var co = $("#console");
+        co.innerHTML = "";
+		ajaxSpin('POST', "/console/send?text=%01%02%10%49%02%10%02%14%4E%FF%FC%02%10%02%10%03",
+        function(resp) { showNotification("Inclusion OFF sent"); co.textEnd = 0; },
+        function(s, st) { showWarning("Error Inclusion OFF"); }
+      );
+    });
+	$("#permit-join-state-button").addEventListener("click", function(e) {
+        e.preventDefault();
+        var co = $("#console");
+        co.innerHTML = "";
+		ajaxSpin('POST', "/console/send?text=%01%02%10%14%02%10%02%10%14%03",
+        function(resp) { showNotification("Permit Join State sent"); co.textEnd = 0; },
+        function(s, st) { showWarning("Error Permit Join State"); }
+      );
+    });
+	
+	$("#send-raw-datas-button").addEventListener("click", function(e) {
+        e.preventDefault();
+        var co = $("#console");
+        co.innerHTML = "";
+		var datas = $("#rawdatas").value;
+		ajaxSpin('POST', "/console/send?text="+datas,
+        function(resp) { showNotification("Send RAW Datas sent"); co.textEnd = 0; },
+        function(s, st) { showWarning("Error Send RAW Datas "); }
+      );
+    });
+
+   
+	$("#saveToFile").addEventListener("click", function(e) {
+		e.preventDefault();
+        var textToWrite = $("#console").value;
+		var textFileAsBlob = new Blob([textToWrite], {type:'text/plain'});
+		var fileNameToSaveAs = "datas.txt";
+
+		var downloadLink = document.createElement("a");
+		downloadLink.download = fileNameToSaveAs;
+		downloadLink.innerHTML = "Download File";
+		if (window.webkitURL != null)
+		{
+			// Chrome allows the link to be clicked
+			// without actually adding it to the DOM.
+			downloadLink.href = window.webkitURL.createObjectURL(textFileAsBlob);
+		}
+		else
+		{
+			// Firefox requires the link to be added to the DOM
+			// before it can be clicked.
+			downloadLink.href = window.URL.createObjectURL(textFileAsBlob);
+			downloadLink.onclick = destroyClickedElement;
+			downloadLink.style.display = "none";
+			document.body.appendChild(downloadLink);
+		}
+
+		downloadLink.click();
+	});
+
+    consoleSendInit();
+
+    addClass($('html')[0], "height100");
+    addClass($('body')[0], "height100");
+    addClass($('#layout'), "height100");
+    addClass($('#layout'), "flex-vbox");
+  });
+</script>
+</body></html>
