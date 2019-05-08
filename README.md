@@ -5,6 +5,7 @@ ZiGate-WiFi is based on powerfull ESP-LINK, you can follow and contribute to thi
 
 TCP 9999 <--> ZiGate-WIFI <--> ZiGate radio
 
+To get informations to install, config or other thingss, you can go to [WIKI](https://zigate.fr/Wiki_Categories/firmware-v2-xx/) from ZiGate Website 
 
 Getting Started
 ---------------
@@ -61,7 +62,7 @@ in the terminal settings set both `local echo` and `local line editing` to `off`
 
 ### Install
 
-comming soon. Also you can go to [esp-link github](https://github.com/jeelabs/esp-link) to get informations.
+comming soon. Also you can go to [esp-link github](https://github.com/jeelabs/esp-link) to get more informations.
 
 Contact
 -------
